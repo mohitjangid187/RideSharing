@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>InRider</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">IR</span>
+          <div>
+            <strong>InRider</strong>
+            <span>Shared street travel</span>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Primary">
+          <button class="nav-item active" type="button" data-panel="match">
+            <span aria-hidden="true">M</span>
+            <span>Match</span>
+          </button>
+          <button class="nav-item" type="button" data-panel="drive">
+            <span aria-hidden="true">D</span>
+            <span>Driver</span>
+          </button>
+          <button class="nav-item" type="button" data-panel="trust">
+            <span aria-hidden="true">T</span>
+            <span>Trust</span>
+          </button>
+        </nav>
+
+        <div class="safety-box">
+          <span class="safety-icon" aria-hidden="true">!</span>
+          <p>OTP start, live route share, verified ID, and emergency contacts stay active for every ride.</p>
+        </div>
+      </aside>
+
+      <main>
+        <section class="topbar" aria-label="Overview">
+          <div>
+            <p class="eyebrow">Today, active nearby</p>
+            <h1>Go together when the destination matches.</h1>
+          </div>
+          <div class="quick-stats" aria-label="Live stats">
+            <div>
+              <strong id="matchCount">8</strong>
+              <span>matches</span>
+            </div>
+            <div>
+              <strong>4.8</strong>
+              <span>trust avg</span>
+            </div>
+            <div>
+              <strong>12m</strong>
+              <span>nearby</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="workspace">
+          <section class="panel route-panel" aria-label="Create ride request">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Request</p>
+                <h2 id="formTitle">Find a companion</h2>
+              </div>
+              <div class="mode-toggle" role="tablist" aria-label="Ride mode">
+                <button class="mode-button active" type="button" data-mode="companion">Together</button>
+                <button class="mode-button" type="button" data-mode="vehicle">Vehicle</button>
+                <button class="mode-button" type="button" data-mode="driver">Drive</button>
+              </div>
+            </div>
+
+            <form id="rideForm">
+              <label>
+                <span>Starting point</span>
+                <input id="startInput" type="text" value="MG Road Metro Gate 2" autocomplete="street-address" />
+              </label>
+              <label>
+                <span>Destination</span>
+                <input id="destInput" type="text" value="Indiranagar 12th Main" autocomplete="street-address" />
+              </label>
+              <div class="form-row">
+                <label>
+                  <span>Leaving</span>
+                  <input id="timeInput" type="time" value="18:30" />
+                </label>
+                <label>
+                  <span>Seats</span>
+                  <input id="seatInput" type="number" value="1" min="1" max="4" />
+                </label>
+              </div>
+              <label id="vehicleField" class="hidden">
+                <span>Vehicle</span>
+                <select id="vehicleInput">
+                  <option>Scooter</option>
+                  <option>Bike</option>
+                  <option>Car</option>
+                  <option>Auto</option>
+                </select>
+              </label>
+              <fieldset>
+                <legend>Preferences</legend>
+                <label class="check-row">
+                  <input type="checkbox" checked />
+                  <span>Verified profile only</span>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" checked />
+                  <span>Same destination priority</span>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" />
+                  <span>Women-only match</span>
+                </label>
+              </fieldset>
+              <button class="primary-action" type="submit">Search matches</button>
+            </form>
+          </section>
+
+          <section class="map-panel" aria-label="Route preview">
+            <div class="route-map">
+              <span class="pin start-pin">A</span>
+              <span class="pin end-pin">B</span>
+              <span class="pulse-dot"></span>
+              <svg viewBox="0 0 480 360" role="img" aria-label="Route line from start to destination">
+                <path class="street" d="M34 300 C140 250 118 158 232 154 C356 150 334 62 448 54" />
+                <path class="street soft" d="M70 52 C170 94 182 240 308 250 C382 256 402 300 454 318" />
+                <path class="route" d="M54 284 C150 238 140 174 242 164 C336 154 346 86 426 70" />
+              </svg>
+              <div class="route-card">
+                <span id="routeDistance">7.4 km</span>
+                <strong id="routeTime">26 min</strong>
+                <small id="routeMode">walking plus metro</small>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel matches-panel" aria-label="Matches">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Best options</p>
+                <h2>Nearby matches</h2>
+              </div>
+              <select id="sortInput" aria-label="Sort matches">
+                <option value="fit">Best fit</option>
+                <option value="time">Soonest</option>
+                <option value="trust">Trust score</option>
+              </select>
+            </div>
+            <div id="matchList" class="match-list"></div>
+          </section>
+        </section>
+
+        <section class="trust-strip" aria-label="Trust and ride state">
+          <article>
+            <span>01</span>
+            <strong>Verify</strong>
+            <p>ID, selfie, license for drivers, and vehicle ownership check.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Confirm</strong>
+            <p>Both people approve route, fare split, pickup, and OTP.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Ride</strong>
+            <p>Live tracking, emergency contact, and post-ride rating.</p>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
